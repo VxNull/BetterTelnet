@@ -67,8 +67,8 @@ btel [options] <host> [port]
 
 1.  **克隆项目**
     ```bash
-    git clone https://github.com/yourusername/better-telnet.git
-    cd better-telnet
+    git clone https://github.com/VxNull/BetterTelnet.gits
+    cd BetterTelnet
     ```
 
 2.  **下载依赖**
@@ -126,8 +126,8 @@ btel -log output.txt 192.168.1.1
 Requirements: Go 1.16+
 
 ```bash
-git clone https://github.com/yourusername/better-telnet.git
-cd better-telnet
+git clone https://github.com/VxNull/BetterTelnet.git
+cd BetterTelnet
 go mod tidy
 go build -o btel.exe main.go
 ```
