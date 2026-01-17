@@ -24,7 +24,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.21' # 或者你当前使用的 Go 版本
+          go-version: '1.24.10' # 或者你当前使用的 Go 版本
 
       # 3. 编译 Windows 版本 (交叉编译)
       - name: Build for Windows
