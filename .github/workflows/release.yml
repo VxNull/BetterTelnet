@@ -1,0 +1,49 @@
+name: Build and Release
+
+# 触发条件：当以 'v' 开头的 tag (如 v1.0.0) 被推送到仓库时触发
+on:
+  push:
+    tags:
+      - "v*"
+
+# 权限设置：允许 Action 创建 Release 和上传附件
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build Windows Binary
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. 检出代码
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. 安装 Go 环境
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21' # 或者你当前使用的 Go 版本
+
+      # 3. 编译 Windows 版本 (交叉编译)
+      - name: Build for Windows
+        env:
+          GOOS: windows
+          GOARCH: amd64
+          CGO_ENABLED: 0
+        run: |
+          # -ldflags="-s -w" 用于去除调试信息，减小体积
+          go build -ldflags="-s -w" -o btel.exe main.go
+
+      # 4. 创建 Release 并上传文件
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          # 上传的文件路径
+          files: btel.exe
+          # 自动根据 Commit 记录生成 Release 说明
+          generate_release_notes: true
+          # 如果是预发布版本（如 v1.0.0-beta），可以设为 true
+          prerelease: false
